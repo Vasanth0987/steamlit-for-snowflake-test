@@ -12,18 +12,37 @@ def getGraph(df):
 
 st.title("Hierarchical Data Viewer")
 
+@st.cache_data
+def loadfile(filename):
+    return pd.read_csv(filename, header=0).convert_dtypes()
+
+if "names" in st.session_state:
+    filenames = st.session_state["names"]
+else:
+    filenames = ["employees.csv"]
+    st.session_state["names"] = filenames
+
 filename ="data/employees.csv"
 uploaded_file = st.sidebar.file_uploader(
     "upload a CSV file", type = ["csv"], accept_multiple_files=False
 )
 if uploaded_file is not None:
     filename = StringIO(uploaded_file.getvalue().decode("utf-8"))
-df_orig = pd.read_csv(filename, header=0).convert_dtypes()
+    file = uploaded_file.name
+    if file not in filenames:
+        filenames.append(file)
+
+for f in filenames:
+    st.sidebar.write(f)
+
+df_orig = loadfile(filename)
 cols = list(df_orig.columns)
 
-child = st.sidebar.selectbox("Child Column Name",cols,index=0)
-parent = st.sidebar.selectbox("Parent Column Name",cols,index=1)
-df = df_orig[[child,parent]]
+with st.sidebar:
+    child = st.selectbox("Child Column Name",cols,index=0)
+    parent = st.selectbox("Parent Column Name",cols,index=1)
+    df = df_orig[[child,parent]]
+        
 
 tabs = st.tabs(["Source","Graph","Dot Code"])
 tabs[0].dataframe(df_orig)
