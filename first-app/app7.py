@@ -10,11 +10,21 @@ def getGraph(df):
             edges += f'\t"{row.iloc[0]}" -> "{row.iloc[1]}";\n'
     return f'digraph {{\n{edges}}}'
 
-st.title("Hierarchical Data Viewer")
+
+def OnShowList(filename):
+    if "names" in st.session_state:
+        filenames = st.session_state["names"]
+        if filename in filenames:
+            st.error("Critical file found!")
+            st.stop()
+
 
 @st.cache_data
 def loadfile(filename):
     return pd.read_csv(filename, header=0).convert_dtypes()
+
+
+st.title("Hierarchical Data Viewer")
 
 if "names" in st.session_state:
     filenames = st.session_state["names"]
@@ -32,8 +42,11 @@ if uploaded_file is not None:
     if file not in filenames:
         filenames.append(file)
 
-for f in filenames:
-    st.sidebar.write(f)
+btn = st.sidebar.button("Show List", 
+                        on_click=OnShowList, args=("portfolio.csv", ))
+if btn:
+    for f in filenames:
+        st.sidebar.write(f)
 
 df_orig = loadfile(filename)
 cols = list(df_orig.columns)
