@@ -56,14 +56,19 @@ df = pd.read_csv("data/employees.csv", header=0).convert_dtypes()
 
 labels, parents  = df[df.columns[0]], df[df.columns[1]]
 
-fig = makeTreemap(labels, parents)
-st.plotly_chart(fig, use_container_width=True)
+t1, t2, t3, t4 = st.tabs(["Treemap","Icicle","Sunburst","Sankey"])
+
+with t1:
+    fig = makeTreemap(labels, parents)
+    st.plotly_chart(fig, use_container_width=True)
 
 fig = makeIcicle(labels, parents)
-st.plotly_chart(fig, use_container_width=True)
+t2.plotly_chart(fig, use_container_width=True)
 
-fig = makeSunburst(labels, parents)
-st.plotly_chart(fig, use_container_width=True)
+with t3:
+    fig = makeSunburst(labels, parents)
+    st.plotly_chart(fig, use_container_width=True)
 
-fig = makeSankey(labels, parents)
-st.plotly_chart(fig, use_container_width=True)
+with t4:
+    fig = makeSankey(labels, parents)
+    st.plotly_chart(fig, use_container_width=True)
