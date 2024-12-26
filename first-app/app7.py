@@ -1,4 +1,4 @@
-import urllib.parse
+import urllib.parse, uuid
 import pandas as pd
 import streamlit as st
 from io import StringIO
@@ -19,8 +19,13 @@ def OnShowList(filename):
             st.stop()
 
 
-@st.cache_data
-def loadfile(filename):
+def getSessionId():
+    if "session_id" not in st.session_state:
+        st.session_state["session_id"] = str(uuid.uuid4())
+    return st.session_state["session_id"]
+
+@st.cache_data(show_spinner="Loading the csv file...")
+def loadfile(SessionId, filename):
     return pd.read_csv(filename, header=0).convert_dtypes()
 
 
@@ -48,7 +53,7 @@ if btn:
     for f in filenames:
         st.sidebar.write(f)
 
-df_orig = loadfile(filename)
+df_orig = loadfile(getSessionId(), filename)
 cols = list(df_orig.columns)
 
 with st.sidebar:
