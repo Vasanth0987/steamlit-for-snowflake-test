@@ -34,10 +34,10 @@ st.title("Hierarchical Data Viewer")
 if "names" in st.session_state:
     filenames = st.session_state["names"]
 else:
-    filenames = ["data/employees.csv"]
+    filenames = ["data\employees.csv"]
     st.session_state["names"] = filenames
 
-filename ="data/employees.csv"
+filename ="data\employees.csv"
 uploaded_file = st.sidebar.file_uploader(
     "upload a CSV file", type = ["csv"], accept_multiple_files=False
 )
