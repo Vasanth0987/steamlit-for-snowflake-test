@@ -29,7 +29,7 @@ st.title("Hierarchical Data Viewer")
 if "names" in st.session_state:
     filenames = st.session_state["names"]
 else:
-    filenames = ["employees.csv"]
+    filenames = ["data/employees.csv"]
     st.session_state["names"] = filenames
 
 filename ="employees.csv"
