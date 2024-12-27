@@ -1,0 +1,8 @@
+import streamlit as st
+
+st.title("Connecting to Ssnowflake")
+st.header("Streamlit SnowflakeConnection")
+
+conn = st.connection("snowflake")
+df = conn.query("select * from CUSTOMER", ttl=3600, show_spinner="Running query...")
+st.dataframe(df)

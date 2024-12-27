@@ -4,3 +4,6 @@ plotly
 pyvis
 scipy
 networkx
+snowflake
+snowflake-connector-python
+snowflake-snowpark-python
