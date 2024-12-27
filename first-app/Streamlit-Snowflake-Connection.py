@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Connecting to Ssnowflake")
+st.title("Connecting to Snowflake")
 st.header("Streamlit SnowflakeConnection")
 
 conn = st.connection("snowflake")
